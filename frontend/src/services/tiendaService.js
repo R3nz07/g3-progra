@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 // Funciones para productos
 export const CrearProducto = async (id,nombre, stock, precio) => {
