@@ -66,6 +66,7 @@ export const ListaProducto = () => {
       await updateProducto(id, productoEditado);
       // Recargar productos desde el backend para mantener sincronizado el estado
       const data = await fetchProductos();
+      data.sort((a, b) => a.id_producto - b.id_producto); // Ordenar por id ascendente
       setProductos(data);
       setModoEdicion(null);
       setProductoEditado({});
