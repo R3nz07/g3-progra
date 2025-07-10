@@ -1,4 +1,3 @@
-// OrdenDetalleCard.jsx
 import React from 'react';
 import styles from './OrdenDetalleCard.module.css';
 
@@ -8,7 +7,7 @@ const OrdenDetalleCard = ({ orden }) => {
   return (
     <div className={styles.card}>
       <h2>
-        Orden <span className={styles.ordenId}>#{orden.id}</span>
+        Orden <span className={styles.ordenId}>#{orden.id_orden}</span>
       </h2>
       <div className={styles.estadoTotalContainer}>
         <p className={estadoEsEntregado ? styles.estadoEntregado : styles.estado}>

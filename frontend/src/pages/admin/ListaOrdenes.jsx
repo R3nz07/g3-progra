@@ -21,7 +21,7 @@ const ListaOrdenes = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     const resultado = ordenes.filter((o) =>
-      o.id?.toString().includes(busqueda.toLowerCase()) ||
+      o.id_orden?.toString().includes(busqueda.toLowerCase()) ||
       o.usuario?.toLowerCase().includes(busqueda.toLowerCase())
     );
     setOrdenesFiltradas(resultado);

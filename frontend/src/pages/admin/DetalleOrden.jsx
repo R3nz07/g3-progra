@@ -13,7 +13,11 @@ const DetalleOrden = () => {
     const fetchOrden = async () => {
       try {
         const data = await obtenerOrdenPorId(id);
-        setOrden(data);
+        const adaptada = {
+          ...data,
+          id: data.id_orden,
+        };
+        setOrden(adaptada);
       } catch (error) {
         console.error('Error al obtener orden:', error);
       }

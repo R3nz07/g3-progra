@@ -1,3 +1,4 @@
+// models/DetalleOrden.js
 import { DataTypes } from "sequelize";
 import { sequelize } from "../config/database.js";
 import { Orden } from "./Orden.js";
@@ -21,3 +22,4 @@ Orden.hasMany(DetalleOrden, { foreignKey: "id_orden" });
 
 DetalleOrden.belongsTo(Producto, { foreignKey: "id_producto" });
 Producto.hasMany(DetalleOrden, { foreignKey: "id_producto" });
+export { DetalleOrden };

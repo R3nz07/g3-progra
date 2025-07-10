@@ -1,6 +1,8 @@
 // controllers/listaordenesController.js
 import { Orden } from '../models/Orden.js';
 import { Usuario } from '../models/Usuario.js';
+import { DetalleOrden } from '../models/DetalleOrden.js';
+import { Producto } from '../models/Producto.js';
 
 // GET - todas las órdenes
 export const getAllOrders = async (req, res) => {
@@ -10,7 +12,7 @@ export const getAllOrders = async (req, res) => {
         model: Usuario,
         attributes: ['nombre', 'apellido']
       },
-      order: [['id_orden', 'DESC']] // Puedes cambiar esto por createdAt si tienes timestamps
+      order: [['id_orden', 'DESC']]
     });
 
     const resultado = ordenes.map(orden => ({
@@ -33,15 +35,32 @@ export const getOrderById = async (req, res) => {
   try {
     const orden = await Orden.findOne({
       where: { id_orden: req.params.id },
-      include: {
-        model: Usuario,
-        attributes: ['nombre', 'apellido', 'correo']
-      }
+      include: [
+        {
+          model: Usuario,
+          attributes: ['nombre', 'apellido', 'correo']
+        },
+        {
+          model: DetalleOrden,
+          include: {
+            model: Producto,
+            attributes: ['id_producto', 'nombre', 'categoria', 'precio']
+          }
+        }
+      ]
     });
 
     if (!orden) {
       return res.status(404).json({ error: 'Orden no encontrada' });
     }
+
+    const productos = orden.DetalleOrdens.map((detalle) => ({
+      id: detalle.Producto.id_producto,
+      nombre: detalle.Producto.nombre,
+      categoria: detalle.Producto.categoria,
+      cantidad: detalle.cantidad,
+      precio: parseFloat(detalle.precio_unitario)
+    }));
 
     const detalle = {
       id: orden.id_orden,
@@ -49,7 +68,7 @@ export const getOrderById = async (req, res) => {
       total: parseFloat(orden.total),
       usuario: `${orden.Usuario?.nombre || 'Usuario'} ${orden.Usuario?.apellido || ''}`,
       correo: orden.Usuario?.correo || 'Sin correo',
-      productos: [], // Aquí podrías incluir productos si están relacionados
+      productos
     };
 
     res.json(detalle);
