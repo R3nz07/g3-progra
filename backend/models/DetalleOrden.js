@@ -22,4 +22,3 @@ Orden.hasMany(DetalleOrden, { foreignKey: "id_orden" });
 
 DetalleOrden.belongsTo(Producto, { foreignKey: "id_producto" });
 Producto.hasMany(DetalleOrden, { foreignKey: "id_producto" });
-export { DetalleOrden };
