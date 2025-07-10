@@ -5,15 +5,15 @@ import { Orden } from '../models/Orden.js';
 // GET - todos los usuarios
 export const getAllUsers = async (req, res) => {
   try {
-    const usuarios = await Usuario.findAll(); // sin ordenar por createdAt
+    const usuarios = await Usuario.findAll(); 
 
-    // Adaptar salida: agregar campos "estado" y "foto" por defecto
+   
     const usuariosFormateados = usuarios.map(u => ({
       id: u.id_usuario,
       nombre: `${u.nombre} ${u.apellido}`,
       correo: u.correo,
-      estado: 'Activo', // valor por defecto
-      foto: null         // sin imagen real
+      estado: 'Activo', 
+      foto: null        
     }));
 
     res.json(usuariosFormateados);
@@ -35,15 +35,15 @@ export const getUserById = async (req, res) => {
 
     const ordenes = await Orden.findAll({
       where: { id_usuario: usuario.id_usuario },
-      order: [['createdAt', 'DESC']], // solo si tu modelo Orden tiene createdAt
+      order: [['createdAt', 'DESC']], 
     });
 
     res.json({
       id: usuario.id_usuario,
       nombre: `${usuario.nombre} ${usuario.apellido}`,
       correo: usuario.correo,
-      estado: 'Activo', // default
-      foto: null,       // default
+      estado: 'Activo', 
+      foto: null,       
       ordenes,
     });
   } catch (error) {
