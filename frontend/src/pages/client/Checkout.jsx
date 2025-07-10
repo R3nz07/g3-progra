@@ -195,7 +195,7 @@ export const Checkout = () => {
               </button>
             </>
           ) : (
-            <FormularioDireccion direccion={direccion} onSave={handleGuardarDireccion} currentUser={currentUser} />
+            <FormularioDireccion direccion={direccion || {}} onSave={handleGuardarDireccion} currentUser={currentUser} />
           )}
         </div>
         <div className={styles.checkoutResumen}>

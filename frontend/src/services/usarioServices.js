@@ -114,17 +114,24 @@ export async function updateDireccionUsuario(id_usuario, direccion) {
 export async function getDireccionUsuario(id_usuario) {
   try {
     const res = await fetch(`${api}/usuarios/${id_usuario}/direccion`);
-    if (!res.ok) {
-      if (res.status === 404) {
-        return null; // Return null if no address found
-      }
-      throw new Error('No se pudo obtener la dirección');
+    
+    // Si el endpoint no existe (404), retornar null
+    if (res.status === 404) {
+      console.log('Endpoint de dirección no encontrado, retornando null');
+      return null;
     }
+    
+    if (!res.ok) {
+      console.error('Error en la respuesta:', res.status, res.statusText);
+      return null;
+    }
+    
     const data = await res.json();
     
     // Check if the address fields are empty/null
     if (!data.departamento && !data.ciudad && !data.direccion && !data.codigoPostal && !data.telefono) {
-      return null; // Return null if all address fields are empty
+      console.log('Todos los campos de dirección están vacíos, retornando null');
+      return null;
     }
     
     return data;
