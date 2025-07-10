@@ -1,13 +1,11 @@
-import React, { useContext } from 'react';
-import { CartContext } from '../../hooks/CartContext';
+import React from 'react';
 import styles from '../../styles/Carrito.module.css';
 
-function CarritoResumen({ botonTexto = "Continuar compra", botonRuta = "/checkout" }) {
-  const { cart, selectedIds } = useContext(CartContext);
-
-  // Solo los juegos seleccionados
-  const juegos = cart.filter(j => selectedIds.includes(j.id));
-  const total = juegos.reduce((acc, j) => acc + j.precio * j.quantity, 0);
+function CarritoResumen({ juegos = [], botonTexto = "Continuar compra", botonRuta = "/checkout" }) {
+  // Verificar que juegos sea un array válido
+  const juegosSeguros = Array.isArray(juegos) ? juegos : [];
+  
+  const total = juegosSeguros.reduce((acc, j) => acc + (j.precio || 0) * (j.quantity || 1), 0);
   const descuento = 0;
   const totalFinal = total - descuento;
 
@@ -15,7 +13,7 @@ function CarritoResumen({ botonTexto = "Continuar compra", botonRuta = "/checkou
     <div className={styles.resumenBox}>
       <h2>Resumen de compra</h2>
       <div className={styles.resumenFila}>
-        <span>Juegos ({juegos.length})</span>
+        <span>Juegos ({juegosSeguros.length})</span>
         <span>S/. {total.toFixed(2)}</span>
       </div>
       <div className={styles.resumenFila}>

@@ -18,8 +18,17 @@ export const MetodoDePago = () => {
   const [showModalTarjeta, setShowModalTarjeta] = useState(false);
   const [direccion, setDireccion] = useState(null);
   const [loading, setLoading] = useState(true);
+  
+  // Usar el hook personalizado para el carrito
   const { cart } = useContext(CartContext);
   const { currentUser } = useLogin();
+  
+  // Debug: verificar que el contexto esté funcionando
+  console.log('MetodoDePago - cart:', cart);
+  console.log('MetodoDePago - currentUser:', currentUser);
+  
+  // Verificar que cart sea un array válido
+  const juegosSeguros = Array.isArray(cart) ? cart : [];
 
   useEffect(() => {
     if (currentUser?.id_usuario) {
@@ -67,7 +76,7 @@ export const MetodoDePago = () => {
         </div>
         <div className={styles.checkoutResumen}>
           {/* Resumen de compra */}
-          <CarritoResumen juegos={cart} />
+          <CarritoResumen juegos={juegosSeguros} />
           <br/>
           {/* Dirección */}
           {loading ? (

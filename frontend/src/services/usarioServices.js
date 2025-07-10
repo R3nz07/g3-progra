@@ -141,7 +141,10 @@ export async function getDireccionUsuario(id_usuario) {
   }
 }
 
+// Recuperar contraseña
 export async function recuperarContrasena({ correo, clinica, nuevaContrasena }) {
+  console.log('Función recuperarContrasena llamada con:', { correo, clinica });
+  
   const res = await fetch(`${api}/usuarios/recuperar-contrasena`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

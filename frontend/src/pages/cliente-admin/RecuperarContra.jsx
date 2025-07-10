@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import TextInput from '../../components/Text/TextInput';
 import styles from '../../styles/RecuperarContra.module.css';
 import Footer from '../../components/Footer/Footer';
-import { recuperarContrasena } from '../../services/usarioServices';
+import * as usuarioServices from '../../services/usarioServices';
 
 function RecuperarContra() {
   const [email, setEmail] = useState('');
@@ -21,7 +21,7 @@ function RecuperarContra() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      await recuperarContrasena({ correo: email, clinica: respuesta, nuevaContrasena });
+      await usuarioServices.recuperarContrasena({ correo: email, clinica: respuesta, nuevaContrasena });
       alert('✅ Contraseña actualizada correctamente. Ahora puedes iniciar sesión.');
       navigate('/login');
     } catch (error) {

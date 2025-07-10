@@ -40,7 +40,7 @@ export const Carrito = () => {
           )}
         </div>
         <div>
-          <CarritoResumen />
+          <CarritoResumen juegos={selectedItems} />
           {selectedItems.length === 0 ? (
             <p className={styles.mensajeNoSeleccionados}>
               No hay ningún producto seleccionado para la compra.
