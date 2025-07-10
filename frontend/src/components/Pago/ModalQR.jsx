@@ -31,11 +31,6 @@ const ModalQR = ({ visible, onClose }) => {
         throw new Error('Debes iniciar sesión para realizar una compra');
       }
 
-      // Validar que haya dirección de envío
-      if (!direccionEnvio) {
-        throw new Error('Debes completar la dirección de envío');
-      }
-
       // Obtener productos seleccionados
       const productosSeleccionados = cart.filter(producto => selectedIds.includes(producto.id));
       
@@ -56,7 +51,7 @@ const ModalQR = ({ visible, onClose }) => {
           cantidad: producto.quantity,
           precio: producto.precio
         })),
-        direccion: direccionEnvio,
+        direccion: direccionEnvio || {}, // Usar dirección si existe, sino objeto vacío
         metodo_pago: 2, // ID del método de pago por QR (Yape)
         total: total
       };

@@ -42,6 +42,11 @@ const ModalTarjeta = ({ visible, onClose, onCreate }) => {
     setError('');
 
     try {
+      // Validar que el usuario esté logueado
+      if (!currentUser || !currentUser.id_usuario) {
+        throw new Error('Debes iniciar sesión para realizar una compra');
+      }
+
       // Obtener productos seleccionados
       const productosSeleccionados = cart.filter(producto => selectedIds.includes(producto.id));
       
@@ -62,7 +67,7 @@ const ModalTarjeta = ({ visible, onClose, onCreate }) => {
           cantidad: producto.quantity,
           precio: producto.precio
         })),
-        direccion: direccionEnvio,
+        direccion: direccionEnvio || {}, // Usar dirección si existe, sino objeto vacío
         metodo_pago: 1, // ID del método de pago por tarjeta
         total: total
       };
