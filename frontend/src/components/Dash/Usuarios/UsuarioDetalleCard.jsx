@@ -10,7 +10,6 @@ const UsuarioDetalleCard = ({ usuario }) => {
       <h2 className={styles.title}>Detalle del usuario</h2>
       <div className={styles.card}>
         <div className={styles.header}>
-          {/* Si tienes foto, muéstrala, si no, muestra un icono genérico */}
           {usuario.foto ? (
             <img src={usuario.foto} alt={usuario.nombre} className={styles.foto} />
           ) : (
@@ -19,13 +18,14 @@ const UsuarioDetalleCard = ({ usuario }) => {
             </div>
           )}
           <div>
-            <h3>{usuario.nombre}</h3>
+            <h3>{usuario.nombre} {usuario.apellido}</h3>
             <p>
               <strong>Correo:</strong>{' '}
               <a href={`mailto:${usuario.correo}`}>{usuario.correo}</a>
             </p>
-            <p><strong>Fecha de registro:</strong> {usuario.fechaRegistro || usuario.fecha_registro || '-'}</p>
-            <p><strong>Estado:</strong> {usuario.estado}</p>
+            <p><strong>País:</strong> {usuario.pais || '-'}</p>
+            <p><strong>Dirección:</strong> {usuario.direccion || '-'}</p>
+            <p><strong>Teléfono:</strong> {usuario.telefono || '-'}</p>
           </div>
         </div>
       </div>
