@@ -100,6 +100,22 @@ export const loginUser = async (req, res) => {
   }
 };
 
+export const recuperarContrasena = async (req, res) => {
+  const { correo, clinica, nuevaContrasena } = req.body;
+  try {
+    const usuario = await Usuario.findOne({ where: { correo } });
+    if (!usuario) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+    if (usuario.clinica !== clinica) {
+      return res.status(400).json({ error: 'Respuesta de seguridad incorrecta' });
+    }
+    await usuario.update({ contrasena: nuevaContrasena });
+    res.json({ mensaje: 'Contraseña actualizada correctamente' });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al recuperar contraseña', detalles: error.message });
+  }
+};
 // Obtener dirección del usuario
 export const getUserAddress = async (req, res) => {
   try {

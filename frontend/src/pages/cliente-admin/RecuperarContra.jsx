@@ -4,59 +4,37 @@ import { useNavigate } from 'react-router-dom';
 import TextInput from '../../components/Text/TextInput';
 import styles from '../../styles/RecuperarContra.module.css';
 import Footer from '../../components/Footer/Footer';
+import { recuperarContrasena } from '../../services/usarioServices';
 
 function RecuperarContra() {
   const [email, setEmail] = useState('');
   const [respuesta, setRespuesta] = useState('');
+  const [nuevaContrasena, setNuevaContrasena] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     localStorage.removeItem('emailRecuperacion');
   }, []);
 
-  const handleVerificar = (e) => {
+  const handleRecuperar = async (e) => {
     e.preventDefault();
-
-    let savedUser = null;
-    
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    savedUser = users.find(user => user.email === email);
-    
-    if (!savedUser) {
-      const registeredUserString = localStorage.getItem('registeredUser');
-      if (registeredUserString) {
-        try {
-          const registeredUser = JSON.parse(registeredUserString);
-          if (registeredUser.email === email) {
-            savedUser = registeredUser;
-          }
-        } catch (error) {
-          console.error("Error al parsear registeredUser:", error);
-        }
-      }
-    }
-
-    if (!savedUser) {
-      alert('❌ El correo no está registrado.');
-      return;
-    }
-
-    const respuestaCorrecta = savedUser.clinica?.trim().toLowerCase();
-    const respuestaIngresada = respuesta.trim().toLowerCase();
-
-    if (respuestaIngresada === respuestaCorrecta) {
-      localStorage.setItem('emailRecuperacion', email);
-      alert('✅ Verificación correcta');
-      navigate('/cambiocontra');
-    } else {
-      alert('❌ Respuesta incorrecta');
+    setIsLoading(true);
+    try {
+      await recuperarContrasena({ correo: email, clinica: respuesta, nuevaContrasena });
+      alert('✅ Contraseña actualizada correctamente. Ahora puedes iniciar sesión.');
+      navigate('/login');
+    } catch (error) {
+      alert('❌ ' + (error.message || 'Error al recuperar contraseña'));
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <div className={styles.recuperarContainer}>
       <div className={styles.recuperarContent}>
-        <form onSubmit={handleVerificar} className={styles.recuperarForm}>
+        <form onSubmit={handleRecuperar} className={styles.recuperarForm}>
           <h2>Recuperar Contraseña</h2>
 
           <TextInput
@@ -74,7 +52,17 @@ function RecuperarContra() {
             required
           />
 
-          <button type="submit" className={styles.button}>Verificar</button>
+          <TextInput
+            type="password"
+            placeholder="Nueva contraseña"
+            value={nuevaContrasena}
+            onChange={(e) => setNuevaContrasena(e.target.value)}
+            required
+          />
+
+          <button type="submit" className={styles.button} disabled={isLoading}>
+            {isLoading ? 'Procesando...' : 'Recuperar contraseña'}
+          </button>
         </form>
       </div>
       <Footer />
