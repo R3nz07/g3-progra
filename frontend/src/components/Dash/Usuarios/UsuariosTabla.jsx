@@ -4,32 +4,19 @@ import Tabla from '../Tabla/Tabla';
 import { usuarios as usuariosConst } from '../../../constantes/Consts';
 import styles from './UsuariosTabla.module.css';
 
-const UsuariosTabla = ({ onVerDetalle }) => {
-  const [usuariosEstado, setUsuariosEstado] = useState([]);
-
-  useEffect(() => {
-    setUsuariosEstado(usuariosConst);
-  }, []);
-
-  const handleToggleEstado = (id) => {
-    setUsuariosEstado(prev =>
-      prev.map(u =>
-        u.id === id ? { ...u, estado: u.estado === 'Activo' ? 'Inactivo' : 'Activo' } : u
-      )
-    );
-    const usuario = usuariosEstado.find(u => u.id === id);
-    alert(`Usuario con ID ${id} ${usuario?.estado === 'Activo' ? 'desactivado' : 'activado'}`);
-  };
+const UsuariosTabla = ({ usuarios = [], onVerDetalle }) => {
+  // Limitar a los primeros 5 usuarios
+  const usuariosMostrados = usuarios.slice(0, 5);
 
   return (
-    <div className={styles.tableWrapper}>
+    <div className={styles.tableWrapper} style={{ maxHeight: 320, overflowY: 'auto', overflowX: 'hidden', direction: 'ltr', scrollbarWidth: 'thin' }}>
       <Tabla
         title="Usuarios registrados"
         tableClassName={styles.usuarioTable}
         columns={['Nombre', 'Estado', 'Acciones']}
-        data={usuariosEstado}
+        data={usuariosMostrados}
         renderRow={u => (
-          <tr key={u.id}>
+          <tr key={u.id_usuario}>
             <td>{u.nombre}</td>
             <td className={u.estado === 'Activo' ? styles.activo : styles.inactivo}>
               {u.estado}
@@ -37,13 +24,13 @@ const UsuariosTabla = ({ onVerDetalle }) => {
             <td>
               <button
                 className={styles.verDetalle}
-                onClick={() => onVerDetalle(u.id)}
+                onClick={() => onVerDetalle(u.id_usuario)}
               >
                 Ver detalle
               </button>
               <button
                 className={u.estado === 'Activo' ? styles.deshabilitar : styles.activar}
-                onClick={() => handleToggleEstado(u.id)}
+                // Aquí podrías agregar lógica para activar/desactivar si lo deseas
               >
                 {u.estado === 'Activo' ? 'Deshabilitar' : 'Activar'}
               </button>
