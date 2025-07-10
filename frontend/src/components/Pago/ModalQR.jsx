@@ -15,7 +15,7 @@ const ModalQR = ({ visible, onClose }) => {
   const navigate = useNavigate();
   const { cart, selectedIds, clearCart } = useContext(CartContext);
   const { direccionEnvio } = useContext(DireccionContext);
-  const { currentUser } = useContext();
+  const { currentUser } = useLogin();
 
   if (!visible) return null;
 
