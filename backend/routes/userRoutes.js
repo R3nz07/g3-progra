@@ -6,7 +6,8 @@ import {
   updateUser,
   changePassword,
   deleteUser,
-  loginUser
+  loginUser,
+  recuperarContrasena
 } from '../controllers/UsuarioController.js';
 
 const router = express.Router();
@@ -18,5 +19,6 @@ router.put('/:id', updateUser);
 router.put('/:id/cambiar-contrasena', changePassword);
 router.delete('/:id', deleteUser);
 router.post('/login', loginUser);
+router.post('/recuperar-contrasena', recuperarContrasena);
 
 export default router;
