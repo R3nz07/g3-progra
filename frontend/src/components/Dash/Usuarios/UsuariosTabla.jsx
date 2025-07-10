@@ -5,32 +5,35 @@ import { usuarios as usuariosConst } from '../../../constantes/Consts';
 import styles from './UsuariosTabla.module.css';
 
 const UsuariosTabla = ({ usuarios = [], onVerDetalle }) => {
-  // Limitar a los primeros 5 usuarios
-  const usuariosMostrados = usuarios.slice(0, 5);
+  // Ocultar el primer usuario (admin) y mostrar todos los demás
+  const usuariosMostrados = usuarios.slice(1);
 
   return (
-    <div className={styles.tableWrapper} style={{ maxHeight: 320, overflowY: 'auto', overflowX: 'hidden', direction: 'ltr', scrollbarWidth: 'thin' }}>
+    <div className={styles.tableWrapper} style={{ maxHeight: 320, overflowY: 'auto', overflowX: 'hidden', direction: 'ltr', scrollbarWidth: 'thin', background: '#f8fafc', border: '1.5px solid #e0e7ef', borderRadius: 12, boxShadow: '0 2px 12px #e0e7ef55' }}>
       <Tabla
-        title="Usuarios registrados"
+        title={<span style={{fontWeight:'bold',fontSize:'1.3rem',color:'#222'}}>Usuarios registrados</span>}
         tableClassName={styles.usuarioTable}
         columns={['Nombre', 'Estado', 'Acciones']}
         data={usuariosMostrados}
         renderRow={u => (
-          <tr key={u.id_usuario}>
-            <td>{u.nombre}</td>
-            <td className={u.estado === 'Activo' ? styles.activo : styles.inactivo}>
+          <tr key={u.id_usuario} style={{background:'#fff',borderRadius:8}}>
+            <td style={{fontWeight:'500',color:'#222'}}>{u.nombre}</td>
+            <td className={u.estado === 'Activo' ? styles.activo : styles.inactivo} style={{fontWeight:'bold'}}>
               {u.estado}
             </td>
             <td>
               <button
                 className={styles.verDetalle}
+                style={{marginBottom:4}}
                 onClick={() => onVerDetalle(u.id_usuario)}
               >
                 Ver detalle
               </button>
+              {/* Botón de deshabilitar solo visual, no funcional */}
               <button
                 className={u.estado === 'Activo' ? styles.deshabilitar : styles.activar}
-                // Aquí podrías agregar lógica para activar/desactivar si lo deseas
+                style={{opacity:0.5, pointerEvents:'none'}}
+                disabled
               >
                 {u.estado === 'Activo' ? 'Deshabilitar' : 'Activar'}
               </button>
