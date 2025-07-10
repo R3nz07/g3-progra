@@ -133,3 +133,18 @@ export async function getDireccionUsuario(id_usuario) {
     return null; // Return null on any error
   }
 }
+
+export async function recuperarContrasena({ correo, clinica, nuevaContrasena }) {
+  const res = await fetch(`${api}/usuarios/recuperar-contrasena`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ correo, clinica, nuevaContrasena }),
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json();
+    throw new Error(errorData.error || 'Error al recuperar contraseña');
+  }
+
+  return res.json();
+}
