@@ -95,10 +95,13 @@ export async function deleteProducto(id) {
 
     if (!response.ok) {
       // Mostrar el mensaje real del backend
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'Error al eliminar producto');
+      const errorText = await response.text();
+      throw new Error(errorText || 'Error al eliminar producto');
     }
-    return await response.json();
+
+    // Solo intenta leer JSON si hay contenido
+    const text = await response.text();
+    return text ? JSON.parse(text) : {};
   } catch (error) {
     console.error('deleteProducto error:', error);
     throw error;

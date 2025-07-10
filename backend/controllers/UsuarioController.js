@@ -116,5 +116,56 @@ export const recuperarContrasena = async (req, res) => {
     res.status(500).json({ error: 'Error al recuperar contraseña', detalles: error.message });
   }
 };
+// Obtener dirección del usuario
+export const getUserAddress = async (req, res) => {
+  try {
+    const usuario = await Usuario.findByPk(req.params.id);
+    if (!usuario) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+    
+    // Extraer solo los campos de dirección
+    const direccion = {
+      nombre: usuario.nombre,
+      apellido: usuario.apellido,
+      departamento: usuario.departamento,
+      ciudad: usuario.ciudad,
+      direccion: usuario.direccion,
+      codigoPostal: usuario.codigoPostal,
+      telefono: usuario.telefono
+    };
+    
+    res.json(direccion);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al obtener dirección del usuario', detalles: error.message });
+  }
+};
+
+// Actualizar dirección del usuario
+export const updateUserAddress = async (req, res) => {
+  try {
+    const usuario = await Usuario.findByPk(req.params.id);
+    if (!usuario) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+    
+    const { nombre, apellido, departamento, ciudad, direccion, codigoPostal, telefono } = req.body;
+    
+    await usuario.update({
+      nombre: nombre || usuario.nombre,
+      apellido: apellido || usuario.apellido,
+      departamento,
+      ciudad,
+      direccion,
+      codigoPostal,
+      telefono
+    });
+    
+    res.json({ mensaje: 'Dirección actualizada correctamente', usuario });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al actualizar dirección del usuario', detalles: error.message });
+  }
+};
+
 
 

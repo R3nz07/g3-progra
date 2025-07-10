@@ -297,3 +297,127 @@ styles.totalFila{
   width: 100%;
   padding: 12px;
 }
+
+/* Estilos para el formulario de dirección */
+.direccionFormContainer {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  margin-bottom: 20px;
+}
+
+.direccionFormTitle {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.direccionForm {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.direccionFormRow {
+  display: flex;
+  gap: 10px;
+}
+
+.direccionFormInput {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.direccionFormInput:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.direccionFormInputFull {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.direccionFormInputFull:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.direccionFormButton {
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.direccionFormButton:hover {
+  background-color: #0056b3;
+}
+
+/* Estilos para el resumen de dirección */
+.direccionResumenContainer {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  margin-bottom: 20px;
+}
+
+.direccionResumenTitle {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.direccionResumenContent {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.direccionResumenItem {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+/* Estilos para el botón editar dirección */
+.editarDireccionButton {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.editarDireccionButton:hover {
+  background-color: #1e7e34;
+}
+
+/* Estilos para el layout del checkout */
+.checkoutForm {
+  flex: 2;
+}
+
+.checkoutResumen {
+  flex: 1;
+}

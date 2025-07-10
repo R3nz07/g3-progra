@@ -5,14 +5,28 @@ const DireccionResumen = ({ direccion }) => {
   if (!direccion) return <p>No hay dirección registrada.</p>;
 
   return (
-    <div className={styles.resumenBox}>
-      <h2>Dirección de Envío</h2>
-      <p><strong>Nombre:</strong> {direccion.nombre} {direccion.apellido}</p>
-      <p><strong>Departamento:</strong> {direccion.departamento}</p>
-      <p><strong>Ciudad:</strong> {direccion.ciudad}</p>
-      <p><strong>Dirección:</strong> {direccion.direccion}</p>
-      <p><strong>Código Postal:</strong> {direccion.codigoPostal}</p>
-      <p><strong>Teléfono:</strong> {direccion.telefono}</p>
+    <div className={styles.direccionResumenContainer}>
+      <h2 className={styles.direccionResumenTitle}>Dirección de Envío</h2>
+      <div className={styles.direccionResumenContent}>
+        <p className={styles.direccionResumenItem}>
+          <strong>Nombre:</strong> {direccion.nombre} {direccion.apellido}
+        </p>
+        <p className={styles.direccionResumenItem}>
+          <strong>Departamento:</strong> {direccion.departamento}
+        </p>
+        <p className={styles.direccionResumenItem}>
+          <strong>Ciudad:</strong> {direccion.ciudad}
+        </p>
+        <p className={styles.direccionResumenItem}>
+          <strong>Dirección:</strong> {direccion.direccion}
+        </p>
+        <p className={styles.direccionResumenItem}>
+          <strong>Código Postal:</strong> {direccion.codigoPostal}
+        </p>
+        <p className={styles.direccionResumenItem}>
+          <strong>Teléfono:</strong> {direccion.telefono}
+        </p>
+      </div>
     </div>
   );
 };

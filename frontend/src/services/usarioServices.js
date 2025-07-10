@@ -91,17 +91,45 @@ export async function eliminarUsuario(id) {
 }
 
 export async function updateDireccionUsuario(id_usuario, direccion) {
-  const res = await fetch(`${api}/usuarios/${id_usuario}/direccion`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(direccion)
-  });
-  if (!res.ok) throw new Error('No se pudo actualizar la dirección');
-  return await res.json();
+  try {
+    const res = await fetch(`${api}/usuarios/${id_usuario}/direccion`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(direccion)
+    });
+    
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.error || 'No se pudo actualizar la dirección');
+    }
+    
+    const data = await res.json();
+    return data.usuario; // Return the updated user data
+  } catch (error) {
+    console.error('Error updating user address:', error);
+    throw error;
+  }
 }
 
 export async function getDireccionUsuario(id_usuario) {
-  const res = await fetch(`${api}/usuarios/${id_usuario}/direccion`);
-  if (!res.ok) throw new Error('No se pudo obtener la dirección');
-  return await res.json();
+  try {
+    const res = await fetch(`${api}/usuarios/${id_usuario}/direccion`);
+    if (!res.ok) {
+      if (res.status === 404) {
+        return null; // Return null if no address found
+      }
+      throw new Error('No se pudo obtener la dirección');
+    }
+    const data = await res.json();
+    
+    // Check if the address fields are empty/null
+    if (!data.departamento && !data.ciudad && !data.direccion && !data.codigoPostal && !data.telefono) {
+      return null; // Return null if all address fields are empty
+    }
+    
+    return data;
+  } catch (error) {
+    console.error('Error getting user address:', error);
+    return null; // Return null on any error
+  }
 }
