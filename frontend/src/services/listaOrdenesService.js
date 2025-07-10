@@ -6,9 +6,8 @@ export const obtenerOrdenes = async () => {
   return await res.json();
 };
 
-// Obtener orden por ID (para detalle)
-export async function obtenerOrdenPorId(id) {
-  const res = await fetch(`${API_URL}/ordenes/${id}`);
+export async function obtenerOrdenPorId(id_orden) {
+  const res = await fetch(`${API_URL}/listaordenes/${id_orden}`);
   if (!res.ok) throw new Error('Error al obtener orden');
   return await res.json();
 }

@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router-dom';
 const OrdenesTable = ({ ordenes = [] }) => {
   const navigate = useNavigate();
 
-  const handleVerDetalle = (id) => {
-    navigate(`/admin/ordenes/${id}`);
+  const handleVerDetalle = (id_orden) => {
+    navigate(`/admin/ordenes/${id_orden}`);
   };
 
   return (
@@ -24,16 +24,16 @@ const OrdenesTable = ({ ordenes = [] }) => {
         </thead>
         <tbody>
           {ordenes.map((orden) => (
-            <tr key={orden.id}>
-              <td>{orden.id}</td>
-              <td>{orden.usuario}</td> {/* Corregido: era "cliente" */}
+            <tr key={orden.id_orden}>
+              <td>{orden.id_orden}</td>
+              <td>{orden.usuario}</td>
               <td>{new Date(orden.fecha).toLocaleDateString('es-PE')}</td>
               <td>S/ {parseFloat(orden.total).toFixed(2)}</td>
               <td>{orden.estado}</td>
               <td>
                 <button
                   className={styles.verBtn}
-                  onClick={() => handleVerDetalle(orden.id)}
+                  onClick={() => handleVerDetalle(orden.id_orden)}
                 >
                   Ver Detalle
                 </button>
