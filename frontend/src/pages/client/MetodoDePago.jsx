@@ -1,12 +1,14 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import TopBar from '../../components/TopBar/TopBar';
 import SelectorMetodoPago from '../../components/Pago/SelectorMetodoPago';
 import ModalTarjeta from '../../components/Pago/ModalTarjeta';
 import ModalQR from '../../components/Pago/ModalQR';
 import DireccionResumen from '../../components/Direccion/DirecciónResumen'; 
 import CarritoResumen from '../../components/Carrito/CarritoResumen';
-import Footer from '../../components/Footer/Footer'; // Importa el footer
-import { CartContext } from '../../hooks/CartContext'; // Importa el contexto del carrito
+import Footer from '../../components/Footer/Footer';
+import { CartContext } from '../../hooks/CartContext';
+import { useLogin } from '../../hooks/LoginContext';
+import { getDireccionUsuario } from '../../services/usarioServices';
 import styles from '../../styles/Carrito.module.css';
 
 export const MetodoDePago = () => {
@@ -14,7 +16,27 @@ export const MetodoDePago = () => {
   const [metodoPago, setMetodoPago] = useState('');
   const [showModalQR, setShowModalQR] = useState(false);
   const [showModalTarjeta, setShowModalTarjeta] = useState(false);
-  const { cart } = useContext(CartContext); // Obtiene los juegos en el carrito desde el contexto
+  const [direccion, setDireccion] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const { cart } = useContext(CartContext);
+  const { currentUser } = useLogin();
+
+  useEffect(() => {
+    if (currentUser?.id_usuario) {
+      getDireccionUsuario(currentUser.id_usuario)
+        .then(dir => {
+          setDireccion(dir);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error('Error loading address:', error);
+          setDireccion(null);
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
+  }, [currentUser]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -32,20 +54,29 @@ export const MetodoDePago = () => {
   return (
     <>
       <TopBar handleSearch={handleSearch} busqueda={busqueda} setBusqueda={setBusqueda} />
-      <div className={styles.carritoWrapper} style={{ display: 'flex', gap: '32px', alignItems: 'flex-start' }}>
-        <div style={{ flex: 2 }}>
+      <div className={styles.carritoWrapper}>
+        <div className={styles.checkoutForm}>
           <h2>Selecciona tu método de pago</h2>
           <SelectorMetodoPago metodoPago={metodoPago} setMetodoPago={setMetodoPago} />
-          <button onClick={handleContinuar} style={{ marginTop: '1rem' }}>
+          <button 
+            onClick={handleContinuar} 
+            className={styles.continuarButton}
+          >
             Continuar
           </button>
         </div>
-        <div style={{ flex: 1 }}>
+        <div className={styles.checkoutResumen}>
           {/* Resumen de compra */}
           <CarritoResumen juegos={cart} />
           <br/>
           {/* Dirección */}
-          <DireccionResumen />
+          {loading ? (
+            <p>Cargando dirección...</p>
+          ) : direccion ? (
+            <DireccionResumen direccion={direccion} />
+          ) : (
+            <p>No hay dirección registrada</p>
+          )}
         </div>
       </div>
       <ModalQR
@@ -59,7 +90,6 @@ export const MetodoDePago = () => {
           setShowModalTarjeta(false);
         }}
       />
-      {/* Footer */}
       <Footer />
     </>
   );
