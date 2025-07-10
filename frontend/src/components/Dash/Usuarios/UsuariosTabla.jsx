@@ -5,8 +5,10 @@ import { usuarios as usuariosConst } from '../../../constantes/Consts';
 import styles from './UsuariosTabla.module.css';
 
 const UsuariosTabla = ({ usuarios = [], onVerDetalle }) => {
-  // Filtrar el admin por correo
-  const usuariosMostrados = usuarios.filter(u => u.correo !== 'admin@tienda.com');
+  // Filtrar admin y solo usuarios con id_usuario definido
+  const usuariosMostrados = usuarios.filter(
+    u => u.correo !== 'admin@tienda.com' && u.id_usuario !== undefined && u.id_usuario !== null
+  );
 
   return (
     <div className={styles.tableWrapper} style={{ maxHeight: 320, overflowY: 'auto', overflowX: 'hidden', direction: 'ltr', scrollbarWidth: 'thin', background: '#f8fafc', border: '1.5px solid #e0e7ef', borderRadius: 12, boxShadow: '0 2px 12px #e0e7ef55' }}>

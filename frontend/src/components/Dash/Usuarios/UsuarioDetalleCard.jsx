@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './UsuarioDetalleCard.module.css';
-import Tabla from '../Tabla/Tabla';
 
 const UsuarioDetalleCard = ({ usuario }) => {
   if (!usuario) {
@@ -11,30 +10,24 @@ const UsuarioDetalleCard = ({ usuario }) => {
       <h2 className={styles.title}>Detalle del usuario</h2>
       <div className={styles.card}>
         <div className={styles.header}>
-          <img src={usuario.foto} alt={usuario.nombre} className={styles.foto} />
+          {/* Si tienes foto, muéstrala, si no, muestra un icono genérico */}
+          {usuario.foto ? (
+            <img src={usuario.foto} alt={usuario.nombre} className={styles.foto} />
+          ) : (
+            <div className={styles.foto} style={{background:'#e0e7ef',display:'flex',alignItems:'center',justifyContent:'center',fontSize:32}}>
+              <span role="img" aria-label="user">👤</span>
+            </div>
+          )}
           <div>
             <h3>{usuario.nombre}</h3>
             <p>
               <strong>Correo:</strong>{' '}
               <a href={`mailto:${usuario.correo}`}>{usuario.correo}</a>
             </p>
-            <p><strong>Fecha de registro:</strong> {usuario.fechaRegistro}</p>
+            <p><strong>Fecha de registro:</strong> {usuario.fechaRegistro || usuario.fecha_registro || '-'}</p>
             <p><strong>Estado:</strong> {usuario.estado}</p>
           </div>
         </div>
-
-        <Tabla
-          title="Órdenes"
-          columns={['#ID', 'Fecha', 'Total']}
-          data={usuario.ordenes}
-          renderRow={o => (
-            <tr key={o.id}>
-              <td>{o.id}</td>
-              <td>{o.fecha}</td>
-              <td>S/{o.total.toFixed(2)}</td>
-            </tr>
-          )}
-        />
       </div>
     </section>
   );
