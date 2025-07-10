@@ -44,7 +44,11 @@ export const getOrderById = async (req, res) => {
           model: DetalleOrden,
           include: {
             model: Producto,
-            attributes: ['id_producto', 'nombre', 'categoria', 'precio']
+            attributes: ['id_producto', 'nombre', 'id_categoria', 'precio'],
+            include: {
+              model: require('../models/Categoria.js').Categoria,
+              attributes: ['nombre']
+            }
           }
         }
       ]
@@ -57,7 +61,7 @@ export const getOrderById = async (req, res) => {
     const productos = orden.DetalleOrdens.map((detalle) => ({
       id: detalle.Producto.id_producto,
       nombre: detalle.Producto.nombre,
-      categoria: detalle.Producto.categoria,
+      categoria: detalle.Producto.Categoria?.nombre || detalle.Producto.id_categoria,
       cantidad: detalle.cantidad,
       precio: parseFloat(detalle.precio_unitario)
     }));
