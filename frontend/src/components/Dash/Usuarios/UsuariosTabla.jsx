@@ -5,8 +5,8 @@ import { usuarios as usuariosConst } from '../../../constantes/Consts';
 import styles from './UsuariosTabla.module.css';
 
 const UsuariosTabla = ({ usuarios = [], onVerDetalle }) => {
-  // Ocultar el primer usuario (admin) y mostrar todos los demás
-  const usuariosMostrados = usuarios.slice(1);
+  // Filtrar el admin por correo
+  const usuariosMostrados = usuarios.filter(u => u.correo !== 'admin@tienda.com');
 
   return (
     <div className={styles.tableWrapper} style={{ maxHeight: 320, overflowY: 'auto', overflowX: 'hidden', direction: 'ltr', scrollbarWidth: 'thin', background: '#f8fafc', border: '1.5px solid #e0e7ef', borderRadius: 12, boxShadow: '0 2px 12px #e0e7ef55' }}>
