@@ -145,7 +145,7 @@ export const Checkout = () => {
     try {
       const updatedUser = await updateDireccionUsuario(currentUser.id_usuario, nuevaDireccion);
       
-      // Extract address fields from the updated user
+      
       const direccionActualizada = {
         nombre: updatedUser.nombre,
         apellido: updatedUser.apellido,
@@ -158,7 +158,7 @@ export const Checkout = () => {
       
       setDireccion(direccionActualizada);
       setMostrarBotonMetodoPago(true);
-      setEditando(false); // Hide form after saving
+      setEditando(false); 
     } catch (error) {
       console.error('Error saving address:', error);
       alert('Error al guardar la dirección. Por favor, inténtalo de nuevo.');
@@ -181,7 +181,7 @@ export const Checkout = () => {
       <TopBar handleSearch={handleSearch} busqueda={busqueda} setBusqueda={setBusqueda} />
       <div className={styles.carritoWrapper}>
         <div className={styles.checkoutForm}>
-          {/* Always show address form or summary */}
+          {/**/}
           {loading ? (
             <p>Cargando dirección...</p>
           ) : direccion && !editando ? (
@@ -201,7 +201,7 @@ export const Checkout = () => {
         <div className={styles.checkoutResumen}>
           <CarritoResumen juegos={juegosSeleccionados} />
           <br/>
-          {/* Only show the button if user has saved an address */}
+          {/* solo muestra si hay dirección */}
           {mostrarBotonMetodoPago && (
             <Link to="/MetodoDePago" className={styles.botonSeguirComprando}>
               Agregar Metodo De Pago
