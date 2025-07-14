@@ -16,7 +16,7 @@ function AgregarCategoria({ onAgregar }) {
   return (
     <form onSubmit={manejarEnvio} className="space-y-4" style={{ maxWidth: '400px' }}>
       <div>
-        <label className="block text-sm font-medium">Nombre</label>
+        <label className="block text-sm font-medium">Nombre XD</label>
         <input
           type="text"
           value={nombre}
