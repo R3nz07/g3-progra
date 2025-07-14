@@ -40,6 +40,5 @@ export const Producto = sequelize.define("Producto", {
   timestamps: false
 });
 
-// Definir la relación con Categoria
 Producto.belongsTo(Categoria, { foreignKey: "id_categoria" });
 Categoria.hasMany(Producto, { foreignKey: "id_categoria" });
