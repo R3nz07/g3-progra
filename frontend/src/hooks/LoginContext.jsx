@@ -1,7 +1,7 @@
 // hooks/LoginContext.jsx
 // hooks/LoginContext.jsx
 import { createContext, useContext, useState, useEffect } from 'react';
-import { actualizarUsuario } from '../services/usarioServices.js';
+import { actualizarUsuario } from '../services/usuarioServices.js';
 
 const LoginContext = createContext();
 
